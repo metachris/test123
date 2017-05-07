@@ -26,5 +26,7 @@ else
     fi
 fi
 
+echo "x"
+
 #git reset --hard
 #git merge tags/<tagname>
