@@ -1,16 +1,15 @@
 #!/bin/bash
-# hol die aktuelle liste an tags vom git server
+# get latewst tags from online
 echo "Fetching latest version information..."
 git fetch --tags
 
-# was ist der neueste tag vom git server?
+# whats the latest tag?
 TAG_LATEST=$( git tag -l | tail -n 1 )
 
-# was ist der tag von dem jetzigen code?
+# whats the current tag?
 TAG_CURRENT=$( git describe --tags )
 
 echo "current=$TAG_CURRENT, latest=$TAG_LATEST"
-# -> wenn die beiden nicht gleich sind, dann gibts ein update
 
 if [ "$TAG_CURRENT" == "$TAG_LATEST" ]; then
     echo "Ghoust is already the latest version."
@@ -22,11 +21,12 @@ else
         echo "use '$0 --update' to execute the update"
         exit 1
     else
-        echo "update"
+        echo "running 'git reset --hard'"
+        git reset --hard
+
+        echo "running 'git merge tags/$TAG_LATEST'"
+        git merge tags/$TAG_LATEST
+
+        echo "Update successful."
     fi
 fi
-
-echo "x"
-
-#git reset --hard
-#git merge tags/<tagname>
